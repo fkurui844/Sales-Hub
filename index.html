@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Activities — Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F6F3;
+    --surface: #FFFFFF;
+    --border: #E4E2DC;
+    --border-strong: #C8C5BB;
+    --text-primary: #1A1916;
+    --text-secondary: #6B6860;
+    --text-muted: #9C9A94;
+    --accent: #1A5F3F;
+    --accent-light: #E6F2EC;
+    --accent-mid: #2E7D52;
+    --danger: #C0392B;
+    --warning: #B7640A;
+    --info: #1A4A7A;
+    --font-display: 'Inter Tight', 'Inter', sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Top bar ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { width: 15px; height: 15px; fill: white; }
+
+  .logo-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .logo-dept {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 1px solid var(--border);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-date {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    border: 1.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--surface);
+    padding: 0;
+  }
+
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: 10px;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  /* ── Main layout ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+    flex: 1;
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .section-count {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ── App grid ── */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+  }
+
+  .app-card {
+    background: var(--surface);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.12s;
+    position: relative;
+  }
+
+  .app-card:hover { background: #FAFAF8; }
+
+  .app-card.locked { opacity: 0.55; cursor: not-allowed; }
+  .app-card.locked:hover { background: var(--surface); }
+
+  .app-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .app-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .app-icon svg { width: 18px; height: 18px; }
+
+  .icon-green  { background: #E6F2EC; }
+  .icon-green svg  { fill: #1A5F3F; }
+
+  .icon-blue   { background: #E6EEF8; }
+  .icon-blue svg   { fill: #1A4A7A; }
+
+  .icon-amber  { background: #FDF3E3; }
+  .icon-amber svg  { fill: #B7640A; }
+
+  .icon-red    { background: #FBEAEA; }
+  .icon-red svg    { fill: #C0392B; }
+
+  .icon-purple { background: #F0EDFB; }
+  .icon-purple svg { fill: #5C3AA8; }
+
+  .icon-teal   { background: #E3F4F1; }
+  .icon-teal svg   { fill: #127067; }
+
+  .icon-gray   { background: #F0EFE9; }
+  .icon-gray svg   { fill: #5F5E5A; }
+
+  .badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-live     { background: #E6F2EC; color: #1A5F3F; }
+  .badge-beta     { background: #FDF3E3; color: #B7640A; }
+  .badge-soon     { background: #F0EFE9; color: #5F5E5A; }
+  .badge-new      { background: #E6EEF8; color: #1A4A7A; }
+
+  .app-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.2px;
+    margin-bottom: 5px;
+  }
+
+  .app-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .app-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .app-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .app-arrow {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .app-arrow svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--text-muted);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── Announcements / Recent ── */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .panel-head {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .panel-head svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.7;
+  }
+
+  .notice-list { padding: 0; list-style: none; }
+
+  .notice-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+    font-size: 13px;
+  }
+
+  .notice-item:last-child { border-bottom: none; }
+
+  .notice-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .dot-green  { background: #1A5F3F; }
+  .dot-amber  { background: #B7640A; }
+  .dot-blue   { background: #1A4A7A; }
+  .dot-gray   { background: #9C9A94; }
+
+  .notice-text { color: var(--text-secondary); line-height: 1.5; }
+  .notice-text strong { color: var(--text-primary); font-weight: 500; }
+  .notice-time { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  .link-list { padding: 0; list-style: none; }
+
+  .link-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.1s;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .link-item:last-child { border-bottom: none; }
+  .link-item:hover { background: #FAFAF8; }
+
+  .link-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .link-icon svg {
+    width: 13px;
+    height: 13px;
+    stroke: var(--text-secondary);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .link-label { flex: 1; }
+  .link-sub { font-size: 11px; color: var(--text-muted); }
+
+  .link-arrow svg {
+    width: 11px;
+    height: 11px;
+    stroke: var(--text-muted);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 16px 2rem;
+    margin-top: auto;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── Search overlay ── */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: text;
+    min-width: 200px;
+  }
+
+  .search-bar svg {
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    header { padding: 0 1rem; }
+    .logo-dept { display: none; }
+    .hero { padding: 1.5rem 1rem; }
+    main { padding: 1.25rem 1rem; }
+    .hero-stats { flex-wrap: wrap; gap: 1.25rem; }
+    .hero h1 { font-size: 22px; }
+    .app-grid { grid-template-columns: 1fr; border-radius: var(--radius); }
+    .bottom-grid { grid-template-columns: 1fr; }
+    .search-bar { display: none; }
+    footer { padding: 12px 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 20h18M3 20V9l9-6 9 6v11M9 20v-6h6v6"/></svg>
+    </div>
+    <span class="logo-name">Sales Hub</span>
+  </a>
+  <div class="header-right">
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+      Quick search…
+    </div>
+    <span class="header-date" id="hdr-date"></span>
+    <div class="avatar" title="Signed in">SA</div>
+  </div>
+</header>
+
+<section class="hero">
+</section>
+
+<main>
+
+  <!-- App grid -->
+  <div class="section-header">
+    <span class="section-title">My Apps</span>
+    <span class="section-count">2 active apps</span>
+  </div>
+
+  <div class="app-grid">
+
+    <!-- Market Visit Form -->
+    <a class="app-card" href="https://market-visit-form.vercel.app/" target="_blank">
+      <div class="app-card-top">
+        <div class="app-icon icon-pink">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M2 17h20v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2z"/><circle cx="10" cy="9" r="1.5"/><circle cx="16" cy="9" r="1.5"/></svg>
+        </div>
+        <span class="badge badge-live">Live</span>
+      </div>
+      <div class="app-name">Market Visit Form</div>
+      <div class="app-desc">Log field visits, capture market intelligence, and submit outlet data from the ground.</div>
+      <div class="app-footer">
+        <span class="app-meta">Vercel · Real-time</span>
+        <span class="app-arrow"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Sales Reporting Tool -->
+    <a class="app-card" href="https://reporting-tool-delta.vercel.app/" target="_blank">
+      <div class="app-card-top">
+        <div class="app-icon icon-green">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="5" rx="1"/><rect x="3" y="10" width="18" height="5" rx="1"/><rect x="3" y="17" width="18" height="4" rx="1"/></svg>
+        </div>
+        <span class="badge badge-live">Live</span>
+      </div>
+      <div class="app-name">Sales Reporting Tool</div>
+      <div class="app-desc">Computing sales per route, customers, and products with comprehensive analytics and insights.</div>
+      <div class="app-footer">
+        <span class="app-meta">Vercel · Analytics</span>
+        <span class="app-arrow"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></span>
+      </div>
+    </a>
+
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>App Hub</span>
+    <span id="footer-time"></span>
+  </div>
+</footer>
+
+<script>
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function updateTime() {
+    const now = new Date();
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const day = days[now.getDay()];
+    const date = `${day}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+    const hdrDate = document.getElementById('hdr-date');
+    if (hdrDate) hdrDate.textContent = `${now.getDate()} ${months[now.getMonth()]}`;
+    
+    const footerTime = document.getElementById('footer-time');
+    if (footerTime) footerTime.textContent = `${date} · ${time}`;
+  }
+
+  updateTime();
+  setInterval(updateTime, 30000);
+</script>
+</body>
+</html>
